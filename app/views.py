@@ -1,10 +1,11 @@
 from app import app
 from flask import render_template, request, redirect, url_for, flash
-
+import datetime
 
 ###
 # Routing for your application.
 ###
+
 
 @app.route('/')
 def home():
@@ -18,9 +19,13 @@ def about():
     return render_template('about.html', name="Mary Jane")
 
 
+@app.route('/profile')
+def profile():
+    return render_template('profile.html', name="Mary Jane", date_joined=format_date_joined(datetime.datetime.now()))
 ###
 # The functions below should be applicable to all Flask apps.
 ###
+
 
 @app.route('/<file_name>.txt')
 def send_text_file(file_name):
@@ -45,3 +50,7 @@ def add_header(response):
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
+
+
+def format_date_joined(date):
+    return f"Joined {date.strftime('%B, %Y')}"
